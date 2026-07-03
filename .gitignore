@@ -1,0 +1,9 @@
+receipts/
+reports/
+*.log
+*.psm1c
+*.bak.*
+.DS_Store
+Thumbs.db
+.vscode/*.log
+.vs/
