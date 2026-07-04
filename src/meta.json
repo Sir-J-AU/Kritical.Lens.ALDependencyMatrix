@@ -1,0 +1,21 @@
+{
+  "name": "Kritical.Lens.ALDependencyMatrix",
+  "category": "language",
+  "purpose": "AL project dependency matrix — maps every object to every other object it references",
+  "audits": [
+    "al-object-dependency-graph",
+    "al-cross-app-dependency",
+    "al-cycle-detection"
+  ],
+  "dependsOn": [
+    "Krit.OmniFramework",
+    "Kritical.Lens.CodeGraph"
+  ],
+  "testable": true,
+  "pathTemplate": "ALBrain/contracts/al-dependency-matrix-<utc>.json",
+  "sink": "disk",
+  "retention": "days 90",
+  "wave": ".5177",
+  "source": "operator",
+  "schemaRef": "schema/al-dependency-matrix.schema.json"
+}
