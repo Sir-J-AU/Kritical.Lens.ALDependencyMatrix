@@ -83,7 +83,12 @@ function Invoke-KriticalLensALDependencyMatrix {
     # Optional mapping enrichment
     $mapping = @{}
     if ($MappingPath -and (Test-Path -LiteralPath $MappingPath)) {
-        $mapObj = Get-Content -LiteralPath $MappingPath -Raw | ConvertFrom-Json
+        # .5231 (lens-hunt): guard mapping read/parse so malformed JSON fails with a clear message.
+        try {
+            $mapObj = Get-Content -LiteralPath $MappingPath -Raw -ErrorAction Stop | ConvertFrom-Json -ErrorAction Stop
+        } catch {
+            throw "Failed to read or parse mapping file '$MappingPath': $($_.Exception.Message)"
+        }
         foreach ($p in $mapObj.PSObject.Properties) {
             $mapping[$p.Name] = $p.Value
         }
@@ -107,6 +112,8 @@ function Invoke-KriticalLensALDependencyMatrix {
     }
 
     if ($OutputMd) {
+        # .5231 (lens-hunt): escape pipe chars so table/file identifiers can't break the Markdown table structure.
+        $esc = { param($v) if ($null -eq $v) { '' } else { ([string]$v) -replace '\|', '\|' } }
         $md = New-Object System.Text.StringBuilder
         $null = $md.AppendLine('# Kritical Lens — AL dependency matrix')
         $null = $md.AppendLine('')
@@ -120,8 +127,8 @@ function Invoke-KriticalLensALDependencyMatrix {
         $null = $md.AppendLine('| Table | Sites | Replacement | Kinds |')
         $null = $md.AppendLine('|---|---:|---|---|')
         foreach ($t in $byTable) {
-            $repl = if ($t.Replacement) { $t.Replacement } else { '&mdash;' }
-            $null = $md.AppendLine(('| `{0}` | {1} | {2} | {3} |' -f $t.Table, $t.Count, $repl, $t.Kinds))
+            $repl = if ($t.Replacement) { & $esc $t.Replacement } else { '&mdash;' }
+            $null = $md.AppendLine(('| `{0}` | {1} | {2} | {3} |' -f (& $esc $t.Table), $t.Count, $repl, (& $esc $t.Kinds)))
         }
         $null = $md.AppendLine('')
         $null = $md.AppendLine('## First 200 sites')
@@ -131,8 +138,8 @@ function Invoke-KriticalLensALDependencyMatrix {
         $take = [Math]::Min($rows.Count, 200)
         for ($i = 0; $i -lt $take; $i++) {
             $r = $rows[$i]
-            $fix = if ($r.PSObject.Properties['FixPath'] -and $r.FixPath) { $r.FixPath } else { '&mdash;' }
-            $null = $md.AppendLine(('| `{0}` | {1} | {2} | {3} | `{4}` | {5} |' -f $r.File, $r.Line, $r.Column, $r.Kind, $r.Table, $fix))
+            $fix = if ($r.PSObject.Properties['FixPath'] -and $r.FixPath) { & $esc $r.FixPath } else { '&mdash;' }
+            $null = $md.AppendLine(('| `{0}` | {1} | {2} | {3} | `{4}` | {5} |' -f (& $esc $r.File), $r.Line, $r.Column, (& $esc $r.Kind), (& $esc $r.Table), $fix))
         }
         Set-Content -LiteralPath $OutputMd -Value $md.ToString() -Encoding utf8
     }
@@ -148,7 +155,12 @@ function Invoke-KriticalLensALDependencyMatrix {
             ByTable   = @($byTable)
             Rows      = @($rows)
         }
-        $obj | ConvertTo-Json -Depth 10 | Set-Content -LiteralPath $OutputJson -Encoding utf8
+        # .5231 (lens-hunt): surface write failures (read-only / disconnected path) instead of silently continuing.
+        try {
+            $obj | ConvertTo-Json -Depth 10 | Set-Content -LiteralPath $OutputJson -Encoding utf8 -ErrorAction Stop
+        } catch {
+            throw "Failed to write JSON output to '$OutputJson': $($_.Exception.Message)"
+        }
     }
 
     [pscustomobject]@{

@@ -11,7 +11,8 @@ function _KriticalLensAlWalkFile {
     if (-not (Test-Path -LiteralPath $Path)) { return @() }
 
     $rows = @()
-    $lines = Get-Content -LiteralPath $Path
+    # .5231 (lens-hunt): force array so single-line files iterate by line, not by character.
+    $lines = @(Get-Content -LiteralPath $Path)
     for ($i = 0; $i -lt $lines.Count; $i++) {
         $line = $lines[$i]
         # Skip comment-only lines and blank lines for perf.
