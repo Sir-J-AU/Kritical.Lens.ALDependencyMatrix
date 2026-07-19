@@ -6,7 +6,8 @@ $script:KriticalLensAlPatterns = @(
     @{
         Name    = 'RecordType'
         # `Record <name>` or `Record "<name>"` — variable declarations
-        Regex   = 'Record\s+(?<t>"[^"]+"|\d+)'
+        # .5231 (lens-hunt): allow bare names (e.g. `Record Customer`), not just quoted/numeric.
+        Regex   = 'Record\s+(?<t>"[^"]+"|\d+|\w+)'
         Kind    = 'RecordDecl'
     }
     @{
