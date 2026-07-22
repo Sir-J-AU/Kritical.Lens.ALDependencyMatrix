@@ -1,0 +1,9 @@
+[
+  {
+    "task": "Find every site in an AL project that still references a third-party dependency's tables, before ripping the dependency out",
+    "description": "Walks every .al file for external-table reference forms (Record, RecordRef.Open, Database:: literal, TableRelation, SourceTable, RunObject) and groups every site by table with file+line+column. When given -MappingPath (external-table-id/name -> replacement-table-name), also emits the mechanical FixPath at every site. No AL compiler required.",
+    "script": "src/Public/Invoke-KriticalLensALDependencyMatrix.ps1",
+    "usage": "Invoke-KriticalLensALDependencyMatrix -Root 'D:\\dev\\SomeAlApp' -FilterTablePattern '^72677\\d{3}$' -MappingPath mapping.json -OutputMd out.md",
+    "tags": ["lens", "al", "dependency", "matrix", "rip-out", "business-central"]
+  }
+]
