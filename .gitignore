@@ -7,3 +7,6 @@ reports/
 Thumbs.db
 .vscode/*.log
 .vs/
+
+# Kritical repo lane-lease (see Kritical.PS.GitHub Enter-KritRepoLease) -- never commit
+.kritical-lane-lock.json
