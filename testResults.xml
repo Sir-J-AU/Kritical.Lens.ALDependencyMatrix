@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<test-results xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="nunit_schema_2.5.xsd" name="Pester" total="3" errors="0" failures="0" not-run="0" inconclusive="0" ignored="0" skipped="0" invalid="0" date="2026-08-07" time="02:06:17">
+  <environment cwd="C:\Users\joshl\OneDrive - Kritical Pty Ltd\Github\Kritical.Lens\components\ps-analyzer\Kritical.Lens.ALDependencyMatrix" user-domain="STACKTRACE" platform="Microsoft Windows 11 Home|C:\WINDOWS|\Device\Harddisk0\Partition3" clr-version="9.0.8" machine-name="STACKTRACE" os-version="10.0.26200" nunit-version="2.5.8.0" user="joshl" />
+  <culture-info current-culture="en-US" current-uiculture="en-US" />
+  <test-suite type="TestFixture" name="Pester" executed="True" result="Success" success="True" time="0.9526" asserts="0" description="Pester">
+    <results>
+      <test-suite type="TestFixture" name="C:\Users\joshl\OneDrive - Kritical Pty Ltd\Github\Kritical.Lens\components\ps-analyzer\Kritical.Lens.ALDependencyMatrix\tests\Kritical.Lens.ALDependencyMatrix.Smoke.Tests.ps1" executed="True" result="Success" success="True" time="0.9526" asserts="0" description="C:\Users\joshl\OneDrive - Kritical Pty Ltd\Github\Kritical.Lens\components\ps-analyzer\Kritical.Lens.ALDependencyMatrix\tests\Kritical.Lens.ALDependencyMatrix.Smoke.Tests.ps1">
+        <results>
+          <test-suite type="TestFixture" name="Kritical.Lens.ALDependencyMatrix — module smoke" executed="True" result="Success" success="True" time="0.4111" asserts="0" description="Kritical.Lens.ALDependencyMatrix — module smoke">
+            <results>
+              <test-case description="has a valid psd1 manifest" name="Kritical.Lens.ALDependencyMatrix — module smoke.has a valid psd1 manifest" time="0.2465" asserts="0" success="True" result="Success" executed="True" />
+              <test-case description="has non-empty exported functions (or documents why)" name="Kritical.Lens.ALDependencyMatrix — module smoke.has non-empty exported functions (or documents why)" time="0.0852" asserts="0" success="True" result="Success" executed="True" />
+              <test-case description="ships a meta.json matching the Emitter Registration Contract" name="Kritical.Lens.ALDependencyMatrix — module smoke.ships a meta.json matching the Emitter Registration Contract" time="0.0375" asserts="0" success="True" result="Success" executed="True" />
+            </results>
+          </test-suite>
+        </results>
+      </test-suite>
+    </results>
+  </test-suite>
+</test-results>
